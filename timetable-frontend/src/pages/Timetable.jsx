@@ -9,7 +9,7 @@ function Timetable() {
   }, []);
 
   const fetchSchedules = async () => {
-    const res = await axios.get("http://localhost:5000/api/schedules");
+    const res = await axios.get("http://localhost:5000/api/schedule");
     setSchedules(res.data);
   };
 

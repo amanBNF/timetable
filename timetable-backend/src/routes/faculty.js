@@ -1,5 +1,8 @@
-import express from "express";
-import { PrismaClient } from "@prisma/client";
+// import express from "express";
+// import { PrismaClient } from "@prisma/client";
+
+const express = require('express');
+const PrismaClient = require('@prisma/client').PrismaClient;
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -33,4 +36,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

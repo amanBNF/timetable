@@ -19,9 +19,10 @@ router.get("/count", async (req, res) => {
     const count = await prisma.classroom.count();
     res.json({ count });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "nahi chalega bhaii jaooo" });
   }
 });
+
 
 // ✅ Create new classroom
 router.post("/", async (req, res) => {

@@ -6,10 +6,20 @@ const router = express.Router();
 // ✅ Get all subjects
 router.get("/", async (req, res) => {
   try {
-    const subjects = await prisma.Subject.findMany();
+    const subjects = await prisma.subject.findMany();
     res.json(subjects);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+//count all subjects
+router.get("/count", async (req, res) => {
+  try {
+    const count = await prisma.subject.count();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: "nahi chalega bhaii jaooo" });
   }
 });
 
@@ -17,7 +27,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const { name, code, totalHours } = req.body;
-    const subject = await prisma.Subject.create({
+    const subject = await prisma.subject.create({
       data: {
         name,
         code,
@@ -35,7 +45,7 @@ router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { name, code, totalHours } = req.body;
-    const subject = await prisma.Subject.update({
+    const subject = await prisma.subject.update({
       where: { id: Number(id) },
       data: {
         name,

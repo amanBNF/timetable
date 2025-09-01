@@ -28,36 +28,60 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-96">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        <form onSubmit={handleLogin} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"
-          >
-            Login
-          </button>
-        </form>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 via-pink-400 to-red-400">
+  <div className="bg-white p-10 rounded-3xl shadow-2xl w-96 animate-fadeIn">
+    <h2 className="text-3xl font-bold text-center mb-6 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+      Login
+    </h2>
+
+    {error && (
+      <p className="text-red-500 text-center mb-4 animate-pulse">{error}</p>
+    )}
+
+    <form onSubmit={handleLogin} className="space-y-5">
+      {/* Email */}
+      <div className="relative">
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full p-4 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 transition-all duration-300 shadow-sm hover:shadow-md"
+        />
       </div>
-    </div>
+
+      {/* Password */}
+      <div className="relative">
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full p-4 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-pink-500 transition-all duration-300 shadow-sm hover:shadow-md"
+        />
+      </div>
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-lg shadow-lg hover:scale-105 hover:shadow-2xl transform transition duration-300"
+      >
+        Login
+      </button>
+    </form>
+
+    {/* Extra Links */}
+    <p className="text-center text-gray-500 mt-4 text-sm">
+      Don't have an account?{" "}
+      <span className="text-purple-600 font-medium hover:underline cursor-pointer">
+        Sign Up
+      </span>
+    </p>
+  </div>
+</div>
+
   );
 }
 

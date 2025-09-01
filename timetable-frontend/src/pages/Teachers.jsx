@@ -1,75 +1,81 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Sidebar from "../components/Sidebar";
 
-const FacultyPage = () => {
-  const [name, setName] = useState("");
-  const [subject, setSubject] = useState("");
-  const [facultyList, setFacultyList] = useState([]);
-
-  // Fetch faculty
-  const fetchFaculty = async () => {
-    const res = await fetch("http://localhost:5000/api/faculty");
-    const data = await res.json();
-    setFacultyList(data.faculties);
-  };
+function Timetable() {
+  const [schedules, setSchedules] = useState([]);
 
   useEffect(() => {
-    fetchFaculty();
+    fetchSchedules();
   }, []);
 
-  // Handle submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/faculty", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, subject }),
-    });
+  const fetchSchedules = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/schedule");
+      setSchedules(res.data);
+    } catch (err) {
+      console.error("Failed to fetch schedules:", err);
+    }
+  };
 
-    if (res.ok) {
-      setName("");
-      setSubject("");
-      fetchFaculty(); // refresh list
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/schedule/${id}`);
+      setSchedules((prev) => prev.filter((s) => s.id !== id));
+    } catch (err) {
+      console.error("Failed to delete schedule:", err);
     }
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Manage Faculty</h2>
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar />
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-3 mb-6">
-        <input
-          type="text"
-          placeholder="Faculty Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border p-2 rounded w-full"
-        />
-        <input
-          type="text"
-          placeholder="Subject"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          className="border p-2 rounded w-full"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Add Faculty
-        </button>
-      </form>
+      <div className="flex-1 p-6">
+        <h1 className="text-3xl font-bold mb-6 text-gray-800">Timetable</h1>
 
-      {/* Faculty List */}
-      <ul className="space-y-2">
-        {facultyList.map((f) => (
-          <li key={f.id} className="p-2 border rounded">
-            <span className="font-medium">{f.name}</span> – {f.subject}
-          </li>
-        ))}
-      </ul>
+        {schedules.length === 0 ? (
+          <p className="text-gray-500 text-lg">No schedules available.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {schedules.map((s) => (
+              <div
+                key={s.id}
+                className="bg-white rounded-2xl shadow-lg p-5 hover:shadow-2xl transition-shadow duration-300 border-l-8 border-blue-500"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-gray-500 font-medium">{s.day}</span>
+                  <span className="text-sm text-gray-400">{s.timeSlot}</span>
+                </div>
+                <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                  {s.subject?.name}
+                </h2>
+                <p className="text-gray-600 mb-1">
+                  Faculty:{" "}
+                  <span className="font-medium text-green-600">
+                    {s.faculty?.name}
+                  </span>
+                </p>
+                <p className="text-gray-600">
+                  Classroom:{" "}
+                  <span className="font-medium text-purple-600">
+                    {s.classroom?.name}
+                  </span>
+                </p>
+                <button
+                  onClick={() => handleDelete(s.id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded mt-3 hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
-};
+}
 
-export default FacultyPage;
+export default Timetable;

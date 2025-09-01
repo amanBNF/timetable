@@ -5,6 +5,8 @@ const classroomRoutes = require("./routes/classroom.js");
 const teacherRoutes = require("./routes/faculty.js");
 const timetableRoutes = require("./routes/schedule.js");
 const subjectRoutes = require("./routes/subject.js");
+const timetable = require("./routes/timetable.js");
+// const timeRoutes = require("../../timetable-frontend/src/pages/Timetable.jsx");
 
 dotenv.config();
 const app = express();
@@ -18,6 +20,7 @@ app.use("/api/classrooms", classroomRoutes);
 app.use("/api/faculty", teacherRoutes);
 app.use("/api/schedule", timetableRoutes);
 app.use("/api/subjects", subjectRoutes);
+app.use("/api/timetable", timetable);
 
 // --- Dummy Admin Credentials (for MVP) ---
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@example.com";

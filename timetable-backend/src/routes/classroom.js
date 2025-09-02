@@ -23,6 +23,21 @@ router.get("/count", async (req, res) => {
   }
 });
 
+//delete classrooms
+router.delete("/:id", async(req, res) => {
+  try{
+    const { id } = req.params;
+    const deletedClassroom = await prisma.classroom.delete({
+      where: {id: Number(id)},
+    });
+    res.json({message: "classroom deleted", data: deletedClassroom});
+  }catch(err){
+    console.log("DELETE /classroom/:id error: ", err);
+    res.status(500).json({error: err.message});
+    
+  }
+})
+
 
 // ✅ Create new classroom
 router.post("/", async (req, res) => {
